@@ -98,7 +98,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nome\": \"Samsung 51\",\r\n  \"preco\": 8000,\r\n  \"descricao\": \"celular\",\r\n  \"quantidade\": 2000\r\n}",
+							"raw": "{\r\n  \"nome\": \"Samsung 51\",\r\n  \"preco\": 7000,\r\n  \"descricao\": \"celular\",\r\n  \"quantidade\": 2000\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -178,12 +178,38 @@
 			"item": [
 				{
 					"name": "Criar usuario",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.test(\"Mensagem de sucesso\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Cadastro realizado com sucesso\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code é 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Erro ao criar usuário sem email\", function () {\r",
+									"    \r",
+									"    pm.response.to.have.status(400);\r",
+									"\r",
+									"   const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.erro).to.eql(\"O campo email é obrigatório.\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"nome\": \"Vinicius Junior\",\r\n  \"email\": \"vinijr@qa.com.br\",\r\n  \"password\": \"teste\",\r\n  \"administrador\": \"true\"\r\n}",
+							"raw": "{\r\n  \"nome\": \"Leo Pele\",\r\n  \"email\": \"zagueiroruim@ebac.com.br\",\r\n  \"password\": \"senha\",\r\n  \"administrador\": \"true\"\r\n}\r\n\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -191,13 +217,9 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/usuarios",
+							"raw": "{{local}}usuarios",
 							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"usuarios"
+								"{{local}}usuarios"
 							]
 						}
 					},
@@ -205,6 +227,24 @@
 				},
 				{
 					"name": "Listar Usuarios",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Validar ususrio na lista\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"Fulano da Silva\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code é 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -221,13 +261,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/usuarios/",
+							"raw": "{{local}}usuarios/",
 							"host": [
-								"localhost"
+								"{{local}}usuarios"
 							],
-							"port": "3000",
 							"path": [
-								"usuarios",
 								""
 							]
 						}
@@ -270,13 +308,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/usuarios/j2C5p9SnwuDNPElP",
+							"raw": "{{local}}usuarios/j2C5p9SnwuDNPElP",
 							"host": [
-								"localhost"
+								"{{local}}usuarios"
 							],
-							"port": "3000",
 							"path": [
-								"usuarios",
 								"j2C5p9SnwuDNPElP"
 							]
 						}
@@ -298,13 +334,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/usuarios/94ZYWPmkAz59xuVM",
+							"raw": "{{local}}usuarios/94ZYWPmkAz59xuVM",
 							"host": [
-								"localhost"
+								"{{local}}usuarios"
 							],
-							"port": "3000",
 							"path": [
-								"usuarios",
 								"94ZYWPmkAz59xuVM"
 							]
 						}
@@ -324,6 +358,15 @@
 									"\r",
 									"pm.test(\"validar mensagem\", function () {\r",
 									"    pm.expect(pm.response.text()).to.include(\"Registro excluído com sucesso\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Erro ao deletar usuário inexistente\", function () {\r",
+									"    \r",
+									"    pm.response.to.have.status(404);\r",
+									"\r",
+									"\r",
+									"    const jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.erro).to.eql(\"Usuário não encontrado.\");\r",
 									"});"
 								],
 								"type": "text/javascript",
@@ -344,13 +387,11 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:3000/usuarios/j2C5p9SnwuDNPElP",
+							"raw": "{{local}}usuarios/j2C5p9SnwuDNPElP",
 							"host": [
-								"localhost"
+								"{{local}}usuarios"
 							],
-							"port": "3000",
 							"path": [
-								"usuarios",
 								"j2C5p9SnwuDNPElP"
 							]
 						}
@@ -400,13 +441,9 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/login",
+					"raw": "{{local}}login",
 					"host": [
-						"localhost"
-					],
-					"port": "3000",
-					"path": [
-						"login"
+						"{{local}}login"
 					]
 				}
 			},
